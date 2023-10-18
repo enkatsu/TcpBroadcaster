@@ -9,6 +9,7 @@ HOST = os.getenv('HOST', '0.0.0.0')
 PORT = int(os.getenv('PORT', 32000))
 CONNECTION_NUM = int(os.getenv('CONNECTION_NUM', 5))
 RECV_BUFFER = int(os.getenv('RECV_BUFFER', 4096))
+ECHO = bool(os.getenv('ECHO', False))
 
 
 class Client:
@@ -54,7 +55,8 @@ def loop_handler(this_client: Client):
             for client in clients:
                 if this_client.equals(client):
                     print(f'{client} {res}')
-                    client.connection.send(res)
+                    if ECHO:
+                        client.connection.send(res)
                 else:
                     client.connection.send(res)
 
